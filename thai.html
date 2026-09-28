@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>THIỆP MỜI VIP DẠ TIỆC GALA - ANH THÁI & VIP TEAM</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cinzel & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold-primary: #ffd700;
+            --gold-gradient: linear-gradient(135deg, #fff7ad 0%, #ffa900 50%, #9e6300 100%);
+            --ruby-glow: rgba(255, 42, 95, 0.8);
+            --sapphire-glow: rgba(42, 130, 255, 0.8);
+            --amethyst-glow: rgba(168, 42, 255, 0.8);
+            --emerald-glow: rgba(42, 255, 130, 0.8);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #05030a;
+            color: #ffffff;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Metallic Gold Gradient Text */
+        .text-gold-metallic {
+            background: linear-gradient(180deg, #fff9d2 0%, #ffd700 45%, #d48800 70%, #fff1a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.5));
+        }
+
+        .gold-border-glow {
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(18, 12, 28, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+        }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Gem Orb Animations & Orbit Rims */
+        .orbit-ring {
+            border: 1px dashed rgba(255, 215, 0, 0.25);
+            animation: spin 40s linear infinite;
+        }
+        .orbit-ring-reverse {
+            border: 1px dotted rgba(255, 255, 255, 0.2);
+            animation: spin-reverse 30s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes spin-reverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .gem-orb {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .gem-orb:hover {
+            transform: scale(1.18) translateY(-6px);
+            filter: brightness(1.3);
+            z-index: 30;
+        }
+
+        /* Specific Gem Glows */
+        .gem-ruby { box-shadow: 0 0 25px var(--ruby-glow), inset 0 0 15px #ff2a5f; border: 2px solid #ff7395; }
+        .gem-sapphire { box-shadow: 0 0 25px var(--sapphire-glow), inset 0 0 15px #2a82ff; border: 2px solid #73adff; }
+        .gem-amethyst { box-shadow: 0 0 25px var(--amethyst-glow), inset 0 0 15px #a82aff; border: 2px solid #cb73ff; }
+        .gem-emerald { box-shadow: 0 0 25px var(--emerald-glow), inset 0 0 15px #2aff82; border: 2px solid #73ffad; }
+
+        /* Glowing Pulse */
+        .glow-pulse-gold {
+            animation: pulse-gold 2.5s infinite ease-in-out;
+        }
+        @keyframes pulse-gold {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(255,215,0,0.6)); }
+            50% { filter: drop-shadow(0 0 35px rgba(255,215,0,0.95)); }
+        }
+
+        /* Screen Shake Animation */
+        .screen-shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 1px, 0); }
+            20%, 80% { transform: translate3d(3px, -2px, 0); }
+            30%, 50%, 70% { transform: translate3d(-5px, 3px, 0); }
+            40%, 60% { transform: translate3d(5px, -3px, 0); }
+        }
+
+        /* Shimmering Button */
+        .btn-gold-shimmer {
+            background: linear-gradient(90deg, #bf8d00 0%, #ffd700 50%, #bf8d00 100%);
+            background-size: 200% auto;
+            color: #000;
+            transition: 0.5s;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        .btn-gold-shimmer:hover {
+            background-position: right center;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.9);
+            transform: scale(1.03);
+        }
+
+        /* Hide Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #05030a; }
+        ::-webkit-scrollbar-thumb { background: #d48800; border-radius: 4px; }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden bg-[#05030a]">
+
+    <canvas id="effectsCanvas" class="fixed inset-0 pointer-events-none z-10 w-full h-full"></canvas>
+
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
+        <!-- GitHub Pages Helper Trigger -->
+        <button onclick="toggleInfoModal()" class="bg-amber-950/70 hover:bg-amber-900 border border-amber-500/50 text-amber-300 px-3 py-2 rounded-full text-xs font-semibold backdrop-blur-md transition flex items-center gap-2 shadow-lg">
+            <i class="fa-solid fa-folder-open text-amber-400"></i>
+            <span class="hidden sm:inline">Hướng Dẫn File Ảnh</span>
+        </button>
+
+        <!-- Audio Toggle Button -->
+        <button id="audioToggleBtn" onclick="toggleAudio()" class="w-11 h-11 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 flex items-center justify-center text-lg backdrop-blur-md hover:bg-amber-500/40 transition shadow-lg">
+            <i id="audioIcon" class="fa-solid fa-volume-xmark"></i>
+        </button>
+    </div>
+
+    <div id="gateOverlay" class="fixed inset-0 z-40 bg-[#08040d] flex flex-col items-center justify-center p-4 transition-opacity duration-1000">
+        <!-- Shockwave visual ring -->
+        <div id="gateShockwave" class="absolute w-1 h-1 rounded-full border-2 border-amber-400 opacity-0 pointer-events-none transition-all duration-700 ease-out"></div>
+
+        <div class="max-w-md w-full text-center z-10 glass-panel p-8 rounded-3xl border border-amber-500/40 shadow-[0_0_80px_rgba(212,136,0,0.25)] relative overflow-hidden">
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-red-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-tr from-amber-600 via-yellow-400 to-amber-200 p-[2px] shadow-[0_0_30px_rgba(255,215,0,0.6)]">
+                <div class="w-full h-full bg-black rounded-full flex items-center justify-center text-amber-400 text-3xl">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+            </div>
+
+            <span class="text-xs tracking-[0.3em] text-amber-400 font-bold uppercase block mb-2">Thư Mời Trân Trọng</span>
+            <h1 class="font-cinzel text-3xl sm:text-4xl font-extrabold text-gold-metallic mb-3">VIP GALA 2026</h1>
+            <p class="text-gray-300 text-sm mb-8 leading-relaxed font-light">
+                Mở cổng không gian sự kiện đẳng cấp Hoàng Gia dành riêng cho <strong class="text-amber-300 font-semibold">ANH THÁI</strong> & Tผู้ Đồng Hành.
+            </p>
+
+            <button onclick="openVIPGate()" class="btn-gold-shimmer w-full py-4 rounded-2xl font-bold tracking-widest text-sm uppercase flex items-center justify-center gap-3 cursor-pointer group">
+                <span>MỞ CỔNG VIP NĂNG LƯỢNG</span>
+                <i class="fa-solid fa-bolt-lightning text-black group-hover:scale-125 transition-transform"></i>
+            </button>
+        </div>
+    </div>
+
+    <main id="mainContent" class="min-h-screen relative z-20 pb-20 pt-10 px-4 max-w-6xl mx-auto flex flex-col items-center justify-between opacity-0 transition-opacity duration-1000 pointer-events-none">
+        
+        <!-- Header Section -->
+        <header class="text-center my-6 relative w-full">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold uppercase tracking-widest mb-4 backdrop-blur-md">
+                <i class="fa-solid fa-gem text-amber-400"></i> Độc Quyền Cao Cấp
+            </div>
+            
+            <h1 id="thaiNameTitle" onclick="handleThaiClick()" class="font-cinzel text-4xl sm:text-6xl md:text-7xl font-black text-gold-metallic tracking-tight cursor-pointer hover:scale-105 transition-transform duration-300 py-2 glow-pulse-gold">
+                ANH THÁI
+            </h1>
+            <p class="text-amber-200/80 text-xs sm:text-sm tracking-[0.3em] uppercase font-semibold mt-1">
+                LÃNH ĐẠO TỐI CAO & VỊ KHÁCH DANH DỰ
+            </p>
+        </header>
+
+        <!-- Center Interactive Showcase Arena -->
+        <section class="relative w-full max-w-4xl min-h-[520px] my-6 flex items-center justify-center">
+            
+            <!-- Orbit Decorative Rings -->
+            <div class="absolute w-[320px] h-[320px] sm:w-[480px] sm:h-[480px] rounded-full orbit-ring pointer-events-none"></div>
+            <div class="absolute w-[260px] h-[260px] sm:w-[380px] sm:h-[380px] rounded-full orbit-ring-reverse pointer-events-none"></div>
+            <div class="absolute w-full h-full bg-radial from-amber-500/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+            <!-- CENTER PHOTO FRAME: ANH THÁI (THAI.PNG) -->
+            <div class="relative z-20 group cursor-pointer" onclick="openGemModal('thai')">
+                <div class="absolute -inset-4 bg-gradient-to-r from-amber-500 via-yellow-300 to-amber-600 rounded-3xl blur-xl opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                
+                <div class="relative w-48 h-60 sm:w-60 sm:h-72 rounded-3xl glass-panel p-2 flex flex-col items-center justify-between gold-border-glow overflow-hidden transform group-hover:scale-105 transition-all duration-500 shadow-[0_0_50px_rgba(255,215,0,0.4)]">
+                    <div class="w-full h-full rounded-2xl overflow-hidden relative bg-slate-900/80">
+                        <!-- Standard image path THAI.PNG with clean placeholder fallback -->
+                        <img id="imgThai" src="THAI.PNG" onerror="this.onerror=null; this.src='https://placehold.co/400x500/150e02/ffd700?text=ANH+TH%C3%81I+VIP';" alt="Anh Thái VIP" class="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-3 left-0 right-0 text-center px-2">
+                            <span class="text-[10px] uppercase font-bold text-amber-400 tracking-widest block">VIP COMMANDER</span>
+                            <h2 class="font-cinzel text-lg font-bold text-white tracking-wide">ANH THÁI</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 ORBITING GEM NODES (ĐÀN EM TEAM) -->
+            <!-- Gem 1: Khang (Red Ruby - Top Left) -->
+            <div class="absolute -top-2 left-4 sm:left-16 z-20 flex flex-col items-center group cursor-pointer" onclick="triggerGemBurst('khang', event)">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-br from-red-500 to-pink-700 gem-orb gem-ruby flex items-center justify-center">
+                    <img src="KHANG.PNG" onerror="this.onerror=null; this.src='https://placehold.co/200x200/2a050d/ff2a5f?text=KHANG';" alt="Đàn em Khang" class="w-full h-full rounded-full object-cover">
+                </div>
+                <div class="mt-2 text-center">
+                    <span class="text-[11px] font-bold text-red-400 uppercase tracking-wider block bg-black/60 px-2 py-0.5 rounded-full border border-red-500/30 backdrop-blur-md">
+                        <i class="fa-solid fa-shield-halved text-[9px] mr-1"></i>KHANG
+                    </span>
+                    <span class="text-[9px] text-gray-400">Ruby Core</span>
+                </div>
+            </div>
+
+            <!-- Gem 2: Nhung (Blue Sapphire - Top Right) -->
+            <div class="absolute -top-2 right-4 sm:right-16 z-20 flex flex-col items-center group cursor-pointer" onclick="triggerGemBurst('nhung', event)">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-br from-blue-500 to-cyan-600 gem-orb gem-sapphire flex items-center justify-center">
+                    <img src="NHUNG.PNG" onerror="this.onerror=null; this.src='https://placehold.co/200x200/05132a/2a82ff?text=NHUNG';" alt="Đàn em Nhung" class="w-full h-full rounded-full object-cover">
+                </div>
+                <div class="mt-2 text-center">
+                    <span class="text-[11px] font-bold text-blue-400 uppercase tracking-wider block bg-black/60 px-2 py-0.5 rounded-full border border-blue-500/30 backdrop-blur-md">
+                        <i class="fa-solid fa-wand-magic-sparkles text-[9px] mr-1"></i>NHUNG
+                    </span>
+                    <span class="text-[9px] text-gray-400">Sapphire Core</span>
+                </div>
+            </div>
+
+            <!-- Gem 3: Huyền (Purple Amethyst - Bottom Left) -->
+            <div class="absolute -bottom-2 left-4 sm:left-16 z-20 flex flex-col items-center group cursor-pointer" onclick="triggerGemBurst('huyen', event)">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-br from-purple-500 to-indigo-700 gem-orb gem-amethyst flex items-center justify-center">
+                    <img src="HUYEN.PNG" onerror="this.onerror=null; this.src='https://placehold.co/200x200/1b052a/a82aff?text=HUYEN';" alt="Đàn em Huyền" class="w-full h-full rounded-full object-cover">
+                </div>
+                <div class="mt-2 text-center">
+                    <span class="text-[11px] font-bold text-purple-400 uppercase tracking-wider block bg-black/60 px-2 py-0.5 rounded-full border border-purple-500/30 backdrop-blur-md">
+                        <i class="fa-solid fa-brain text-[9px] mr-1"></i>HUYỀN
+                    </span>
+                    <span class="text-[9px] text-gray-400">Amethyst Core</span>
+                </div>
+            </div>
+
+            <!-- Gem 4: Linh (Emerald Green - Bottom Right) -->
+            <div class="absolute -bottom-2 right-4 sm:right-16 z-20 flex flex-col items-center group cursor-pointer" onclick="triggerGemBurst('linh', event)">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1 bg-gradient-to-br from-emerald-400 to-teal-700 gem-orb gem-emerald flex items-center justify-center">
+                    <img src="LINH.PNG" onerror="this.onerror=null; this.src='https://placehold.co/200x200/052a14/2aff82?text=LINH';" alt="Đàn em Linh" class="w-full h-full rounded-full object-cover">
+                </div>
+                <div class="mt-2 text-center">
+                    <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block bg-black/60 px-2 py-0.5 rounded-full border border-emerald-500/30 backdrop-blur-md">
+                        <i class="fa-solid fa-crown text-[9px] mr-1"></i>LINH
+                    </span>
+                    <span class="text-[9px] text-gray-400">Emerald Core</span>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="w-full max-w-2xl my-4">
+            <div class="glass-panel p-6 rounded-3xl border border-amber-500/30 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center divide-y md:divide-y-0 md:divide-x divide-amber-500/20">
+                    <div class="p-2">
+                        <i class="fa-regular fa-clock text-amber-400 text-xl mb-1 block"></i>
+                        <span class="text-xs text-gray-400 uppercase font-semibold block">Thời Gian</span>
+                        <strong class="text-amber-200 text-sm font-bold">18:00 | 01.10.2026</strong>
+                    </div>
+                    <div class="p-2 pt-3 md:pt-2">
+                        <i class="fa-regular fa-calendar-check text-amber-400 text-xl mb-1 block"></i>
+                        <span class="text-xs text-gray-400 uppercase font-semibold block">Ngày Trong Tuần</span>
+                        <strong class="text-amber-200 text-sm font-bold">Thứ Năm (Gala Evening)</strong>
+                    </div>
+                    <div class="p-2 pt-3 md:pt-2">
+                        <i class="fa-solid fa-location-dot text-amber-400 text-xl mb-1 block"></i>
+                        <span class="text-xs text-gray-400 uppercase font-semibold block">Địa Điểm</span>
+                        <strong class="text-amber-200 text-sm font-bold">Palace Grand Ballroom</strong>
+                    </div>
+                </div>
+
+                <!-- Main Action RSVP Button -->
+                <div class="mt-6 pt-4 border-t border-amber-500/20 text-center">
+                    <button onclick="confirmAttendance()" class="btn-gold-shimmer w-full py-4 rounded-2xl font-black text-base sm:text-lg tracking-wider uppercase flex items-center justify-center gap-3 cursor-pointer group shadow-[0_0_40px_rgba(255,215,0,0.4)]">
+                        <i class="fa-solid fa-fire text-black group-hover:animate-bounce"></i>
+                        <span>ANH THÁI SẼ ĐẾN DỰ TIỆC GIỜ NÀY!</span>
+                        <i class="fa-solid fa-arrow-right text-black group-hover:translate-x-2 transition-transform"></i>
+                    </button>
+                    <p class="text-[11px] text-amber-300/60 mt-2 italic">
+                        * Nhấp vào để kích hoạt hiệu ứng Bùng Nổ Pháo Hoa Toàn Màn Hình & Xác Nhận Tham Dự
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    
+    <!-- Modal 1: Gem Member Modal -->
+    <div id="gemModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="max-w-md w-full glass-panel p-6 sm:p-8 rounded-3xl border border-amber-400/50 relative shadow-[0_0_60px_rgba(255,215,0,0.3)] transform scale-90 transition-transform duration-300" id="gemModalCard">
+            <button onclick="closeModal('gemModal')" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center">
+                <div class="w-32 h-32 mx-auto rounded-full p-1 bg-gradient-to-r from-amber-400 to-yellow-600 shadow-2xl mb-4 relative">
+                    <img id="modalMemberImg" src="" alt="" class="w-full h-full rounded-full object-cover">
+                    <span id="modalMemberBadge" class="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-bold text-black uppercase tracking-wider bg-amber-400 shadow">
+                        MEMBER VIP
+                    </span>
+                </div>
+
+                <h3 id="modalMemberName" class="font-cinzel text-2xl font-bold text-gold-metallic mb-1">TÊN THÀNH VIÊN</h3>
+                <p id="modalMemberRole" class="text-xs text-amber-400 uppercase tracking-widest font-semibold mb-4">CHỨC DANH</p>
+                
+                <div class="bg-black/40 p-4 rounded-2xl border border-amber-500/20 text-gray-200 text-sm leading-relaxed text-left mb-6 font-light italic" id="modalMemberDesc">
+                    Lời chúc hoặc mô tả chi tiết đàn em...
+                </div>
+
+                <button onclick="closeModal('gemModal')" class="w-full py-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 font-bold text-sm tracking-wide transition">
+                    ĐÃ XÁC NHẬN THÔNG TIN
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Attendance Confirmation Modal with Countdown -->
+    <div id="rsvpModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-2xl flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="max-w-lg w-full glass-panel p-8 rounded-3xl border-2 border-amber-400/60 text-center relative shadow-[0_0_80px_rgba(255,215,0,0.5)]">
+            <div class="w-16 h-16 mx-auto rounded-full bg-amber-400 text-black flex items-center justify-center text-3xl font-black mb-4 animate-bounce">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            
+            <span class="text-xs tracking-[0.3em] text-amber-400 font-bold uppercase block mb-1">XÁC NHẬN THÀNH CÔNG</span>
+            <h2 class="font-cinzel text-3xl font-extrabold text-gold-metallic mb-2">ANH THÁI SẼ HIỆN DIỆN!</h2>
+            <p class="text-gray-300 text-sm mb-6">
+                Hệ thống Dạ Tiệc Gala VIP đã ghi nhận xác nhận hiện diện chính thức. Đếm ngược tới giờ G:
+            </p>
+
+            <!-- Countdown Timer Box -->
+            <div class="grid grid-cols-4 gap-2 mb-6 text-center">
+                <div class="bg-black/60 p-3 rounded-xl border border-amber-500/30">
+                    <span id="cdDays" class="font-cinzel text-xl sm:text-2xl font-bold text-amber-400 block">00</span>
+                    <span class="text-[9px] text-gray-400 uppercase">Ngày</span>
+                </div>
+                <div class="bg-black/60 p-3 rounded-xl border border-amber-500/30">
+                    <span id="cdHours" class="font-cinzel text-xl sm:text-2xl font-bold text-amber-400 block">00</span>
+                    <span class="text-[9px] text-gray-400 uppercase">Giờ</span>
+                </div>
+                <div class="bg-black/60 p-3 rounded-xl border border-amber-500/30">
+                    <span id="cdMins" class="font-cinzel text-xl sm:text-2xl font-bold text-amber-400 block">00</span>
+                    <span class="text-[9px] text-gray-400 uppercase">Phút</span>
+                </div>
+                <div class="bg-black/60 p-3 rounded-xl border border-amber-500/30">
+                    <span id="cdSecs" class="font-cinzel text-xl sm:text-2xl font-bold text-amber-400 block">00</span>
+                    <span class="text-[9px] text-gray-400 uppercase">Giây</span>
+                </div>
+            </div>
+
+            <button onclick="closeModal('rsvpModal')" class="btn-gold-shimmer w-full py-3.5 rounded-xl font-bold text-sm tracking-wider uppercase">
+                TUYỆT VỜI - ĐÓNG CỬA SỔ
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal 3: Easter Egg Modal -->
+    <div id="easterEggModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="max-w-md w-full glass-panel p-8 rounded-3xl border-2 border-yellow-300 text-center relative shadow-[0_0_100px_rgba(255,215,0,0.8)]">
+            <div class="text-5xl mb-4 text-amber-300 animate-spin" style="animation-duration: 8s;">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <h2 class="font-cinzel text-2xl font-black text-gold-metallic mb-2">SECRET VIP UNLOCKED!</h2>
+            <p class="text-amber-100 text-sm leading-relaxed mb-6 italic">
+                "Kính chúc Anh Thái luôn giữ vững vị thế đỉnh cao, uy nghiêm dẫn dắt đội ngũ 4 Đàn em (Khang, Nhung, Huyền, Linh) đại thắng mọi trận chiến!"
+            </p>
+            <button onclick="closeModal('easterEggModal')" class="w-full py-3 rounded-xl bg-amber-400 text-black font-extrabold text-sm uppercase tracking-wider hover:bg-amber-300 transition">
+                NHẬN THÔNG ĐIỆP ĐẶC BIỆT
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal 4: GitHub Deployment Guide Modal -->
+    <div id="infoModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="max-w-lg w-full glass-panel p-6 sm:p-8 rounded-3xl border border-amber-500/40 text-left relative">
+            <button onclick="closeModal('infoModal')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 text-white flex items-center justify-center text-sm">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="font-cinzel text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+                <i class="fa-brands fa-github text-2xl"></i> Hướng Dẫn Up GitHub Pages
+            </h3>
+            <p class="text-xs text-gray-300 mb-3 leading-relaxed">
+                Để website hiển thị hình ảnh thực tế sắc nét 100%, vui lòng đặt file <code class="text-amber-300 bg-amber-950/60 px-1.5 py-0.5 rounded">index.html</code> cùng thư mục gốc với các file ảnh sau trên GitHub Repository:
+            </p>
+            <ul class="text-xs text-amber-200/90 space-y-1.5 mb-6 list-disc list-inside bg-black/40 p-3 rounded-xl border border-amber-500/20 font-mono">
+                <li><strong class="text-amber-400">THAI.PNG</strong> (Ảnh chân دونg Anh Thái)</li>
+                <li><strong class="text-amber-400">KHANG.PNG</strong> (Đàn em Khang)</li>
+                <li><strong class="text-amber-400">NHUNG.PNG</strong> (Đàn em Nhung)</li>
+                <li><strong class="text-amber-400">HUYEN.PNG</strong> (Đàn em Huyền)</li>
+                <li><strong class="text-amber-400">LINH.PNG</strong> (Đàn em Linh)</li>
+            </ul>
+            <p class="text-[11px] text-gray-400 italic">
+                * Nếu chưa upload ảnh, website sẽ tự động dùng hình ảnh placeholder sang trọng thay thế.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const TEAM_DATA = {
+            thai: {
+                name: "ANH THÁI",
+                role: "Lãnh Đạo Tối Cao - VIP Guest",
+                img: "THAI.PNG",
+                badge: "VIP COMMANDER",
+                desc: "Vị chủ nhân tôn quý nhất của đêm Gala VIP. Sự xuất hiện của Anh Thái là niềm vinh hạnh đỉnh cao cho toàn thể sự kiện!"
+            },
+            khang: {
+                name: "ĐÀN EM KHANG",
+                role: "Chiến Thần Tiên Phong (Ruby)",
+                img: "KHANG.PNG",
+                badge: "RUBY CORE",
+                desc: "Khang - Trụ cột kiên cường, luôn tiên phong xông pha mọi thử thách, sát cánh trung thành bên Anh Thái."
+            },
+            nhung: {
+                name: "ĐÀN EM NHUNG",
+                role: "Thiên Thần Sáng Tạo (Sapphire)",
+                img: "NHUNG.PNG",
+                badge: "SAPPHIRE CORE",
+                desc: "Nhung - Bộ óc sáng tạo tinh tế, mang lại năng lượng sapphire rực rỡ và những giải pháp bứt phá."
+            },
+            huyen: {
+                name: "ĐÀN EM HUYỀN",
+                role: "Bảo Bối Trí Tuệ (Amethyst)",
+                img: "HUYEN.PNG",
+                badge: "AMETHYST CORE",
+                desc: "Huyền - Viên ngọc tím trí tuệ, điềm tĩnh và sắc bén, luôn cố vấn những nước đi chiến lược chuẩn xác."
+            },
+            linh: {
+                name: "ĐÀN EM LINH",
+                role: "Quản Gia Toàn Năng (Emerald)",
+                img: "LINH.PNG",
+                badge: "EMERALD CORE",
+                desc: "Linh - Mảnh ghép hoàn hảo, chu toàn mọi công việc, đảm bảo hậu phương vững chắc cho Anh Thái."
+            }
+        };
+
+        // Web Audio API Sound Synthesizer (No external audio files needed!)
+        let audioCtx = null;
+        let isAudioMuted = true;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function toggleAudio() {
+            initAudio();
+            isAudioMuted = !isAudioMuted;
+            const btnIcon = document.getElementById('audioIcon');
+            if (isAudioMuted) {
+                btnIcon.className = "fa-solid fa-volume-xmark";
+            } else {
+                btnIcon.className = "fa-solid fa-volume-high text-amber-400";
+                playTone(523.25, 'sine', 0.1, 0.2); // Welcome chime
+            }
+        }
+
+        function playTone(freq, type = 'sine', duration = 0.2, vol = 0.3) {
+            if (isAudioMuted || !audioCtx) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) { console.log(e); }
+        }
+
+        function playBoomSound() {
+            if (isAudioMuted || !audioCtx) return;
+            try {
+                // Low frequency rumble synth
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.8);
+                gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.8);
+            } catch (e) {}
+        }
+
+        const canvas = document.getElementById('effectsCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor(x, y, color, speed, size) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = Math.random() * size + 1;
+                const angle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(angle) * (Math.random() * speed);
+                this.vy = Math.sin(angle) * (Math.random() * speed);
+                this.alpha = 1;
+                this.decay = Math.random() * 0.015 + 0.008;
+                this.gravity = 0.03;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += this.gravity;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class AmbientSparkle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2 + 0.5;
+                this.alpha = Math.random() * 0.5;
+                this.speed = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.y -= this.speed;
+                this.alpha += (Math.random() - 0.5) * 0.02;
+                if (this.y < 0 || this.alpha <= 0) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, Math.min(1, this.alpha));
+                ctx.fillStyle = "#ffd700";
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        let particles = [];
+        let ambientSparkles = Array.from({ length: 70 }, () => new AmbientSparkle());
+
+        function createExplosion(x, y, count = 60, colors = ['#ffd700', '#ffa900', '#ffffff', '#ff2a5f']) {
+            playBoomSound();
+            for (let i = 0; i < count; i++) {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particles.push(new Particle(x, y, color, 8, 3.5));
+            }
+        }
+
+        function renderCanvas() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Ambient floating sparkles
+            ambientSparkles.forEach(sparkle => {
+                sparkle.update();
+                sparkle.draw();
+            });
+
+            // Explosive particles update
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(renderCanvas);
+        }
+        renderCanvas();
+
+        
+        // Gate Opening Routine
+        function openVIPGate() {
+            initAudio();
+            isAudioMuted = false;
+            document.getElementById('audioIcon').className = "fa-solid fa-volume-high text-amber-400";
+            
+            // Trigger shockwave & screen shake
+            document.body.classList.add('screen-shake');
+            setTimeout(() => document.body.classList.remove('screen-shake'), 600);
+
+            createExplosion(width / 2, height / 2, 120, ['#ffd700', '#fff7ad', '#ff2a5f', '#2a82ff']);
+
+            const gate = document.getElementById('gateOverlay');
+            const main = document.getElementById('mainContent');
+
+            gate.classList.add('opacity-0');
+            setTimeout(() => {
+                gate.style.display = 'none';
+                main.classList.remove('opacity-0', 'pointer-events-none');
+            }, 800);
+        }
+
+        // Gem Burst Interaction
+        function triggerGemBurst(memberKey, event) {
+            initAudio();
+            playTone(880, 'sine', 0.25, 0.4);
+            
+            // Get click coordinates
+            const rect = event.currentTarget.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            let colors = ['#ffd700', '#ffffff'];
+            if (memberKey === 'khang') colors.push('#ff2a5f', '#ff7395');
+            if (memberKey === 'nhung') colors.push('#2a82ff', '#73adff');
+            if (memberKey === 'huyen') colors.push('#a82aff', '#cb73ff');
+            if (memberKey === 'linh') colors.push('#2aff82', '#73ffad');
+
+            createExplosion(x, y, 50, colors);
+
+            setTimeout(() => {
+                openGemModal(memberKey);
+            }, 250);
+        }
+
+        // Open Member Details Modal
+        function openGemModal(key) {
+            const data = TEAM_DATA[key];
+            if (!data) return;
+
+            document.getElementById('modalMemberName').innerText = data.name;
+            document.getElementById('modalMemberRole').innerText = data.role;
+            document.getElementById('modalMemberDesc').innerText = `"${data.desc}"`;
+            document.getElementById('modalMemberBadge').innerText = data.badge;
+
+            const imgEl = document.getElementById('modalMemberImg');
+            imgEl.src = data.img;
+            imgEl.onerror = function() {
+                this.src = `https://placehold.co/300x300/111/ffd700?text=${encodeURIComponent(data.name)}`;
+            };
+
+            const modal = document.getElementById('gemModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('gemModalCard').classList.remove('scale-90');
+            document.getElementById('gemModalCard').classList.add('scale-100');
+        }
+
+        function closeModal(modalId) {
+            playTone(440, 'sine', 0.1, 0.2);
+            const modal = document.getElementById(modalId);
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // RSVP Fullscreen Fireworks Action
+        function confirmAttendance() {
+            initAudio();
+            
+            // Massive full-screen multi-explosion series
+            for (let delay = 0; delay < 1200; delay += 200) {
+                setTimeout(() => {
+                    const rx = Math.random() * (width * 0.8) + width * 0.1;
+                    const ry = Math.random() * (height * 0.7) + height * 0.1;
+                    createExplosion(rx, ry, 70, ['#ffd700', '#ffa900', '#ffffff', '#ff2a5f', '#2a82ff', '#2aff82']);
+                }, delay);
+            }
+
+            document.body.classList.add('screen-shake');
+            setTimeout(() => document.body.classList.remove('screen-shake'), 800);
+
+            // Open Countdown Modal
+            setTimeout(() => {
+                startCountdown();
+                const rsvpModal = document.getElementById('rsvpModal');
+                rsvpModal.classList.remove('opacity-0', 'pointer-events-none');
+            }, 600);
+        }
+
+        // Countdown Timer Logic
+        function startCountdown() {
+            const targetDate = new Date("October 1, 2026 18:00:00").getTime();
+
+            function updateTimer() {
+                const now = new Date().getTime();
+                const diff = targetDate - now;
+
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    document.getElementById('cdDays').innerText = String(days).padStart(2, '0');
+                    document.getElementById('cdHours').innerText = String(hours).padStart(2, '0');
+                    document.getElementById('cdMins').innerText = String(mins).padStart(2, '0');
+                    document.getElementById('cdSecs').innerText = String(secs).padStart(2, '0');
+                }
+            }
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        // Easter Egg Logic: Triple click on "ANH THÁI"
+        let clickCount = 0;
+        let clickTimer = null;
+
+        function handleThaiClick() {
+            clickCount++;
+            playTone(500 + clickCount * 150, 'sine', 0.15, 0.3);
+
+            if (clickTimer) clearTimeout(clickTimer);
+
+            if (clickCount >= 3) {
+                clickCount = 0;
+                createExplosion(width / 2, height / 3, 150, ['#ffd700', '#fff', '#ff2a5f', '#a82aff']);
+                const modal = document.getElementById('easterEggModal');
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 800);
+            }
+        }
+
+        function toggleInfoModal() {
+            const modal = document.getElementById('infoModal');
+            if (modal.classList.contains('opacity-0')) {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+    </script>
+</body>
+</html>

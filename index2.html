@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Thư Mời VIP - Anh Thái</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- GSAP Animation Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-black: #030305;
+            --ruby: #8B0000;
+            --ruby-glow: #e60000;
+            --gold: #D4AF37;
+            --gold-light: #FFF2A1;
+            --gold-glow: #ffdf00;
+            
+            /* Gem Colors */
+            --gem-khang: #FF3366;
+            --gem-minh: #FF9900;
+            --gem-nhung: #3399FF;
+            --gem-huyen: #B333FF;
+            --gem-linh: #00E676;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            width: 100vw;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor, #cursor-blur {
+            position: fixed;
+            top: 0; left: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        #cursor {
+            width: 8px; height: 8px;
+            background: #fff;
+            box-shadow: 0 0 10px #fff;
+        }
+        #cursor-blur {
+            width: 36px; height: 36px;
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+        @media (max-width: 768px) {
+            #cursor, #cursor-blur { display: none !important; }
+        }
+
+        /* --- CONTROL BUTTONS --- */
+        #audio-btn {
+            position: fixed;
+            top: 20px; right: 20px;
+            z-index: 9000;
+            background: rgba(10, 5, 5, 0.7);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 10px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 11px;
+            letter-spacing: 1px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s;
+        }
+        #audio-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 25px var(--gold); }
+
+        /* --- LOADING SCREEN --- */
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .load-text {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            letter-spacing: 6px;
+            color: var(--gold);
+            opacity: 0;
+            text-align: center;
+            text-shadow: 0 0 25px rgba(212,175,55,0.7);
+        }
+
+        /* --- CINEMATIC GATE SCREEN --- */
+        #gate-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            perspective: 1500px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        #gate-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .gate-door-container {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            transform-style: preserve-3d;
+        }
+
+        .gate-door {
+            width: 50%; height: 100%;
+            position: relative;
+            background: radial-gradient(circle at center, #2a0307 0%, #080102 80%, #000 100%);
+            border: 2px solid #4a0000;
+            box-shadow: inset 0 0 120px rgba(139, 0, 0, 0.8);
+            transform-style: preserve-3d;
+            transition: border-color 0.5s;
+        }
+
+        .gate-left {
+            border-right: 4px solid var(--gold);
+            transform-origin: left center;
+        }
+        .gate-right {
+            border-left: 4px solid var(--gold);
+            transform-origin: right center;
+        }
+
+        .gate-ornament {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 60%),
+                repeating-linear-gradient(45deg, transparent, transparent 25px, rgba(212, 175, 55, 0.03) 25px, rgba(212, 175, 55, 0.03) 50px);
+            pointer-events: none;
+        }
+
+        .gate-seam-glow {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 6px; height: 100%;
+            background: var(--gold-light);
+            box-shadow: 0 0 30px var(--gold-glow), 0 0 60px var(--ruby-glow), 0 0 100px #fff;
+            z-index: 3;
+            animation: seamPulse 2s infinite alternate ease-in-out;
+        }
+
+        .gate-center-content {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            width: 90%;
+            max-width: 650px;
+        }
+
+        .gate-title {
+            font-size: clamp(1.8rem, 4vw, 3.2rem);
+            color: #fff;
+            text-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgba(212,175,55,0.4);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .gate-subtitle {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: #ddd;
+            letter-spacing: 3px;
+            margin-bottom: 45px;
+            font-weight: 300;
+        }
+
+        .open-btn {
+            background: linear-gradient(135deg, rgba(139,0,0,0.6), rgba(0,0,0,0.8));
+            border: 2px solid var(--gold);
+            color: var(--gold-light);
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            padding: 18px 50px;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 4px;
+            cursor: pointer;
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3), inset 0 0 15px rgba(212, 175, 55, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .open-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transition: 0.6s;
+        }
+
+        .open-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 50px var(--gold), inset 0 0 25px var(--gold);
+            color: #fff;
+            border-color: #fff;
+        }
+
+        .open-btn:hover::before { left: 100%; }
+
+        #white-flash {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, #ffffff 20%, #fff8d6 60%, #ffd700 100%);
+            z-index: 6000;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- MAIN WEBSITE CONTENT --- */
+        #main-wrapper {
+            position: relative;
+            width: 100%;
+            display: none;
+            background: radial-gradient(circle at 50% 20%, #200206 0%, #0a0103 50%, var(--bg-black) 100%);
+            z-index: 10;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Hero Orbit Section */
+        #hero-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        /* --- CENTER FRAME FOR ANH THÁI (ALWAYS GLOWING & PROMINENT) --- */
+        .center-frame-wrapper {
+            position: relative;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .center-frame {
+            position: relative;
+            width: clamp(200px, 28vw, 290px);
+            height: clamp(200px, 28vw, 290px);
+            border-radius: 50%;
+            padding: 7px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--ruby-glow), var(--gold-light));
+            background-size: 300% 300%;
+            animation: breathGlow 3s ease-in-out infinite alternate, rotateBorder 6s linear infinite;
+            box-shadow: 
+                0 0 35px var(--gold-glow),
+                0 0 70px rgba(212, 175, 55, 0.7),
+                0 0 110px rgba(230, 0, 0, 0.6),
+                inset 0 0 25px var(--gold-light);
+        }
+
+        /* Continuous Radiant Aura behind photo */
+        .center-frame::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 223, 0, 0.6) 0%, rgba(230, 0, 0, 0.3) 50%, transparent 75%);
+            filter: blur(18px);
+            z-index: -1;
+            animation: auraPulse 2.2s infinite alternate ease-in-out;
+        }
+
+        .center-img {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            background: radial-gradient(circle, #4a050b 0%, #000 100%);
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.7);
+            filter: drop-shadow(0 0 12px rgba(255, 223, 0, 0.9));
+        }
+
+        .guest-badge {
+            margin-top: 22px;
+            font-size: clamp(0.75rem, 1.6vw, 0.95rem);
+            letter-spacing: 4px;
+            color: var(--gold);
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.8);
+        }
+
+        .guest-name {
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 30px var(--gold-glow), 0 0 50px rgba(212, 175, 55, 0.8);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .guest-name:hover { transform: scale(1.06); }
+
+        .guest-sub {
+            font-size: clamp(0.85rem, 1.9vw, 1.05rem);
+            color: #ddd;
+            margin-top: 4px;
+            font-weight: 300;
+            text-shadow: 0 0 8px rgba(0,0,0,0.8);
+        }
+
+        /* 3D Orbit System */
+        .orbit-ring-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; height: 100%;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px dashed rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.1);
+        }
+        .ring-inner { width: clamp(340px, 48vw, 560px); height: clamp(340px, 48vw, 560px); }
+        .ring-outer { width: clamp(450px, 64vw, 720px); height: clamp(450px, 64vw, 720px); border-style: dotted; opacity: 0.45; }
+
+        /* Gems */
+        .gem {
+            position: absolute;
+            width: clamp(58px, 7.5vw, 82px);
+            height: clamp(58px, 7.5vw, 82px);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            pointer-events: auto;
+            z-index: 25;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid rgba(255,255,255,0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+        }
+
+        .gem::after {
+            content: ''; position: absolute; inset: -10px; border-radius: 50%;
+            background: inherit; filter: blur(12px); opacity: 0.65; z-index: -1;
+        }
+
+        #gem-khang { background-color: var(--gem-khang); background-image: url('KHANG.PNG'); box-shadow: 0 0 25px var(--gem-khang); border-color: var(--gem-khang); }
+        #gem-minh  { background-color: var(--gem-minh);  background-image: url('MINH.PNG');  box-shadow: 0 0 25px var(--gem-minh);  border-color: var(--gem-minh); }
+        #gem-nhung { background-color: var(--gem-nhung); background-image: url('NHUNG.PNG'); box-shadow: 0 0 25px var(--gem-nhung); border-color: var(--gem-nhung); }
+        #gem-huyen { background-color: var(--gem-huyen); background-image: url('HUYEN.PNG'); box-shadow: 0 0 25px var(--gem-huyen); border-color: var(--gem-huyen); }
+        #gem-linh  { background-color: var(--gem-linh);  background-image: url('LINH.PNG');  box-shadow: 0 0 25px var(--gem-linh);  border-color: var(--gem-linh); }
+
+        .gem-info-tooltip {
+            position: absolute;
+            top: 105%; left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .gem-title { font-family: 'Cinzel', serif; font-weight: 700; color: #fff; font-size: 0.9rem; text-shadow: 0 0 8px #000; }
+        .gem-quote { font-size: 0.7rem; color: #ddd; text-shadow: 0 0 5px #000; }
+
+        .gem:hover { transform: translate(-50%, -50%) scale(1.35) !important; z-index: 45; }
+        .gem:hover .gem-info-tooltip { opacity: 1; }
+
+        /* --- GLASSMORPHISM MODAL --- */
+        #gem-modal, #rsvp-modal {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(18px);
+            z-index: 9000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        #gem-modal.active, #rsvp-modal.active { opacity: 1; pointer-events: auto; }
+
+        .modal-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 40px clamp(20px, 5vw, 50px);
+            border-radius: 24px;
+            text-align: center;
+            width: 90%; max-width: 500px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 30px rgba(212, 175, 55, 0.1);
+            transform: translateY(40px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #gem-modal.active .modal-card, #rsvp-modal.active .modal-card { transform: translateY(0) scale(1); }
+
+        .modal-name { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 15px; font-family: 'Cinzel', serif; }
+        .modal-msg { font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.7; margin-bottom: 30px; font-style: italic; color: #eee; }
+        
+        .modal-close-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        .modal-close-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold); }
+
+        /* --- CONTENT SECTIONS --- */
+        .section {
+            min-height: 80vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            position: relative; z-index: 10;
+        }
+
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal-item.active { opacity: 1; transform: translateY(0); }
+
+        .info-header { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--gold); letter-spacing: 6px; margin-bottom: 25px; }
+        .info-time { font-size: clamp(3.5rem, 8vw, 5.5rem); font-family: 'Cinzel', serif; font-weight: 900; margin: 10px 0; text-shadow: 0 0 30px rgba(212,175,55,0.4); }
+        .info-date { font-size: clamp(1.1rem, 2.5vw, 1.6rem); letter-spacing: 4px; color: #ccc; margin-bottom: 40px; }
+
+        .tag-title { font-size: 0.85rem; color: var(--gold); letter-spacing: 3px; margin-top: 25px; margin-bottom: 8px; font-weight: 700; }
+        .tag-names { font-size: clamp(1.1rem, 2.3vw, 1.7rem); font-family: 'Cinzel', serif; font-weight: 700; }
+        .tag-names.highlight { font-size: clamp(2rem, 4vw, 3rem); color: var(--ruby-glow); text-shadow: 0 0 25px var(--ruby-glow); }
+
+        /* Cinematic Messaging */
+        #cinematic-section { background: rgba(0,0,0,0.6); }
+        .cine-line { font-size: clamp(1.2rem, 3vw, 2.2rem); font-weight: 300; margin: 25px 0; font-family: 'Cinzel', serif; color: #ddd; }
+        .cine-final { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 900; color: var(--gold-light); text-shadow: 0 0 35px var(--gold-glow); margin-top: 40px; }
+
+        /* RSVP */
+        .rsvp-btn {
+            background: linear-gradient(135deg, #a80015, #d31145);
+            border: 2px solid var(--gold);
+            color: #fff;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            padding: 22px 55px;
+            border-radius: 60px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 40px rgba(211, 17, 69, 0.7);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .rsvp-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 60px var(--gold-glow);
+            border-color: #fff;
+        }
+
+        /* Keyframes */
+        @keyframes seamPulse {
+            0% { opacity: 0.6; filter: brightness(1); }
+            100% { opacity: 1; filter: brightness(1.8); }
+        }
+        @keyframes auraPulse {
+            0% { transform: scale(0.95); opacity: 0.6; filter: blur(15px); }
+            100% { transform: scale(1.18); opacity: 1; filter: blur(25px); }
+        }
+        @keyframes breathGlow {
+            0% {
+                box-shadow: 0 0 30px var(--gold-glow), 0 0 60px rgba(212, 175, 55, 0.5), 0 0 90px rgba(230, 0, 0, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 55px var(--gold-glow), 0 0 110px rgba(255, 223, 0, 0.9), 0 0 160px rgba(230, 0, 0, 0.8);
+            }
+        }
+        @keyframes rotateBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div id="cursor-blur"></div>
+    <div id="cursor"></div>
+
+    <!-- Audio Control -->
+    <button id="audio-btn">🔊 BẬT ÂM THANH</button>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="load-text" id="load-1">01 • 10 • 2026</div>
+        <div class="load-text" id="load-2" style="display:none; margin-top:20px;">A SPECIAL EVENING</div>
+        <div class="load-text" id="load-3" style="display:none; margin-top:20px; color:#fff;">FOR ANH THÁI</div>
+    </div>
+
+    <!-- Gate Screen -->
+    <div id="gate-screen">
+        <canvas id="gate-canvas"></canvas>
+
+        <div class="gate-door-container" id="door-container">
+            <div class="gate-door gate-left" id="door-left">
+                <div class="gate-ornament"></div>
+            </div>
+            <div class="gate-door gate-right" id="door-right">
+                <div class="gate-ornament"></div>
+            </div>
+        </div>
+
+        <div class="gate-seam-glow" id="gate-seam"></div>
+
+        <div class="gate-center-content" id="gate-content">
+            <h1 class="gate-title serif">ANH THÁI, MỜI ANH BƯỚC VÀO…</h1>
+            <p class="gate-subtitle">Một buổi tối đặc biệt đang chờ Anh.</p>
+            <button class="open-btn" id="open-gate-btn">✦ MỞ CỔNG ✦</button>
+        </div>
+    </div>
+
+    <!-- White/Gold Glare Flash -->
+    <div id="white-flash"></div>
+
+    <!-- Main Website Wrapper -->
+    <div id="main-wrapper">
+        <canvas id="bg-canvas"></canvas>
+
+        <!-- Hero Section -->
+        <section id="hero-section">
+            <div class="orbit-ring-container">
+                <div class="orbit-ring ring-inner"></div>
+                <div class="orbit-ring ring-outer"></div>
+            </div>
+
+            <!-- Center Frame (Always Glowing) -->
+            <div class="center-frame-wrapper">
+                <div class="center-frame">
+                    <img src="THAI.PNG" alt="Anh Thái" class="center-img" onerror="this.style.display='none'">
+                </div>
+                <div class="guest-badge">✨ KHÁCH MỜI DANH DỰ ✨</div>
+                <div class="guest-name" id="thai-name-btn">ANH THÁI</div>
+                <div class="guest-sub">Tâm điểm đặc biệt của buổi tối hôm nay</div>
+            </div>
+
+            <!-- 5 Gems Orbiting -->
+            <div class="gem" id="gem-khang" data-name="KHANG" data-color="#FF3366" data-msg="Anh Thái ơi, buổi tiệc này chắc chắn sẽ thiếu đi rất nhiều niềm vui nếu không có Anh. Người em luôn sẵn sàng góp mặt!">
+                <div class="gem-info-tooltip">
+                    <div class="gem-title">KHANG</div>
+                    <div class="gem-quote">"Sẵn sàng góp mặt."</div>
+                </div>
+            </div>
+            <div class="gem" id="gem-minh" data-name="MINH" data-color="#FF9900" data-msg="Gửi Anh Thái, một ngày đặc biệt không thể thiếu những ly cụng hết mình cùng Anh. Đàn em đã sẵn sàng rồi!">
+                <div class="gem-info-tooltip">
+                    <div class="gem-title">MINH</div>
+                    <div class="gem-quote">"Đồng hành cạn ly."</div>
+                </div>
+            </div>
+            <div class="gem" id="gem-nhung" data-name="NHUNG" data-color="#3399FF" data-msg="Gửi Anh Thái, một chút lấp lánh và thật nhiều tiếng cười đang chờ Anh. Đừng lỡ hẹn với đàn em nhé!">
+                <div class="gem-info-tooltip">
+                    <div class="gem-title">NHUNG</div>
+                    <div class="gem-quote">"Mang đến tiếng cười."</div>
+                </div>
+            </div>
+            <div class="gem" id="gem-huyen" data-name="HUYỀN" data-color="#B333FF" data-msg="Anh Thái ơi, sự hiện diện của Anh là mảnh ghép quan trọng nhất cho một buổi tối rộn ràng!">
+                <div class="gem-info-tooltip">
+                    <div class="gem-title">HUYỀN</div>
+                    <div class="gem-quote">"Góp thêm rộn ràng."</div>
+                </div>
+            </div>
+            <div class="gem" id="gem-linh" data-name="LINH" data-color="#00E676" data-msg="Buổi tối đặc biệt không thể thiếu người anh đặc biệt. Chờ Anh đến cạn ly cùng anh em!">
+                <div class="gem-info-tooltip">
+                    <div class="gem-title">LINH</div>
+                    <div class="gem-quote">"Mảnh ghép không thể thiếu."</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Details Section -->
+        <section class="section" id="info-section">
+            <div class="reveal-item">
+                <h2 class="info-header serif">✦ MỘT BUỔI TỐI ĐẶC BIỆT ✦</h2>
+                <div class="info-time">18:00</div>
+                <div class="info-date">THỨ NĂM | 01.10.2026</div>
+
+                <div class="tag-title">NGƯỜI MỜI</div>
+                <div class="tag-names" style="color: var(--gold);">KHANG • MINH • NHUNG • HUYỀN • LINH</div>
+
+                <div class="tag-title">KHÁCH MỜI ĐẶC BIỆT</div>
+                <div class="tag-names highlight">ANH THÁI</div>
+            </div>
+        </section>
+
+        <!-- Cinematic Words Section -->
+        <section class="section" id="cinematic-section">
+            <div class="reveal-item cine-line">"Có những buổi tiệc không cần quá đông người…"</div>
+            <div class="reveal-item cine-line" style="transition-delay: 0.25s;">"…chỉ cần đúng những người mình trân trọng."</div>
+            <div class="reveal-item cine-line" style="transition-delay: 0.5s;">Và tối 01.10.2026…</div>
+            <div class="reveal-item cine-final">ANH THÁI NHẤT ĐỊNH PHẢI CÓ MẶT! ❤️</div>
+        </section>
+
+        <!-- RSVP Section -->
+        <section class="section" id="rsvp-section">
+            <div class="reveal-item">
+                <button class="rsvp-btn" id="rsvp-btn">✦ ANH THÁI SẼ ĐẾN ✦</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Gem Modal -->
+    <div id="gem-modal">
+        <div class="modal-card">
+            <h2 class="modal-name" id="modal-gem-title">NAME</h2>
+            <p class="modal-msg" id="modal-gem-msg">Message</p>
+            <button class="modal-close-btn" id="close-gem-modal">QUAY LẠI VÒNG NGỌC</button>
+        </div>
+    </div>
+
+    <!-- RSVP Confirmation Modal -->
+    <div id="rsvp-modal">
+        <div class="modal-card">
+            <h2 class="modal-name" style="color:var(--gold); font-size: clamp(1.8rem, 4vw, 2.5rem);">HẸN ANH<br>18H – 01.10.2026 ❤️</h2>
+            <p class="modal-msg" style="margin-top: 15px;">"Năm đàn em đã sẵn sàng chờ Anh."</p>
+            <div style="color: var(--gold-light); letter-spacing: 2px; font-weight: 700; font-size: 1rem; margin-bottom: 25px;">
+                KHANG • MINH • NHUNG • HUYỀN • LINH
+            </div>
+            <button class="modal-close-btn" onclick="document.getElementById('rsvp-modal').classList.remove('active')">ĐÓN NHẬN LỜI MỜI</button>
+        </div>
+    </div>
+
+    <script>
+        /* --- 1. WEB AUDIO SYNTHESIZER --- */
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+        let soundEnabled = false;
+
+        const btnAudio = document.getElementById('audio-btn');
+        btnAudio.addEventListener('click', () => {
+            if (!audioCtx) audioCtx = new AudioCtx();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            soundEnabled = !soundEnabled;
+            btnAudio.innerText = soundEnabled ? '🔊 ÂM THANH: BẬT' : '🔇 ÂM THANH: TẮT';
+            if(soundEnabled) playSparkleSound();
+        });
+
+        function playGateChargeSound() {
+            if(!soundEnabled || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 1.2);
+            gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 1.0);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 1.5);
+        }
+
+        function playBoomSound() {
+            if(!soundEnabled || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 1.8);
+            gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.8);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 1.8);
+        }
+
+        function playWhooshSound() {
+            if(!soundEnabled || !audioCtx) return;
+            const bufferSize = audioCtx.sampleRate * 1.5;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+            filter.frequency.linearRampToValueAtTime(150, audioCtx.currentTime + 1.2);
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.2);
+            noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        function playSparkleSound() {
+            if(!soundEnabled || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(1000 + Math.random()*800, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        }
+
+        /* --- 2. CUSTOM CURSOR --- */
+        const cursor = document.getElementById('cursor');
+        const cursorBlur = document.getElementById('cursor-blur');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            setTimeout(() => {
+                cursorBlur.style.left = e.clientX + 'px';
+                cursorBlur.style.top = e.clientY + 'px';
+            }, 40);
+        });
+
+        /* --- 3. LOADING SEQUENCE --- */
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+            tl.to('#load-1', {opacity: 1, duration: 0.8, display: 'block'})
+              .to('#load-1', {opacity: 0, duration: 0.8, delay: 0.6, display: 'none'})
+              .to('#load-2', {opacity: 1, duration: 0.8, display: 'block'})
+              .to('#load-2', {opacity: 0, duration: 0.8, delay: 0.5, display: 'none'})
+              .to('#load-3', {opacity: 1, duration: 0.8, display: 'block', scale: 1.15})
+              .to('#load-3', {opacity: 0, duration: 0.8, delay: 0.5, display: 'none'})
+              .to('#loading-screen', {opacity: 0, duration: 0.8, onComplete: () => {
+                  document.getElementById('loading-screen').style.display = 'none';
+                  initGateCanvas();
+                  gsap.from('#gate-content', {opacity: 0, y: 40, duration: 1.2, ease: "power3.out"});
+              }});
+        });
+
+        /* --- 4. GATE OPENING CINEMATIC ENGINE --- */
+        let gateCanvas, gateCtx;
+        let isGateOpening = false;
+        let lightIntensity = 0;
+        let flyParticles = [];
+        let sparkles = [];
+        let fogTime = 0;
+
+        function initGateCanvas() {
+            gateCanvas = document.getElementById('gate-canvas');
+            gateCtx = gateCanvas.getContext('2d');
+            resizeGateCanvas();
+            window.addEventListener('resize', resizeGateCanvas);
+            requestAnimationFrame(renderGateCanvas);
+        }
+
+        function resizeGateCanvas() {
+            if(!gateCanvas) return;
+            gateCanvas.width = window.innerWidth;
+            gateCanvas.height = window.innerHeight;
+        }
+
+        class FlyParticle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = (Math.random() - 0.5) * gateCanvas.width * 0.3;
+                this.y = (Math.random() - 0.5) * gateCanvas.height * 0.3;
+                this.z = Math.random() * 800 + 200;
+                this.pz = this.z;
+                this.speed = Math.random() * 12 + 8;
+                this.size = Math.random() * 3 + 1;
+                this.color = Math.random() > 0.4 ? '#FFF2A1' : '#ff4d4d';
+            }
+            update() {
+                this.pz = this.z;
+                this.z -= this.speed * (1 + lightIntensity * 2);
+                if (this.z <= 1) this.reset();
+            }
+            draw() {
+                const cx = gateCanvas.width / 2;
+                const cy = gateCanvas.height / 2;
+                const sx = (this.x / this.z) * 500 + cx;
+                const sy = (this.y / this.z) * 500 + cy;
+                const r = (1 - this.z / 1000) * this.size * 3;
+
+                if (sx >= 0 && sx <= gateCanvas.width && sy >= 0 && sy <= gateCanvas.height) {
+                    gateCtx.fillStyle = this.color;
+                    gateCtx.beginPath();
+                    gateCtx.arc(sx, sy, Math.max(0.1, r), 0, Math.PI * 2);
+                    gateCtx.fill();
+                }
+            }
+        }
+
+        class SparkleStar {
+            constructor() {
+                this.x = Math.random() * gateCanvas.width;
+                this.y = Math.random() * gateCanvas.height;
+                this.size = Math.random() * 15 + 5;
+                this.alpha = 0;
+                this.maxAlpha = Math.random() * 0.8 + 0.2;
+                this.speed = Math.random() * 0.05 + 0.02;
+            }
+            update() {
+                this.alpha += this.speed;
+                if(this.alpha > this.maxAlpha) this.speed = -this.speed;
+            }
+            draw() {
+                if(this.alpha <= 0) return;
+                gateCtx.save();
+                gateCtx.translate(this.x, this.y);
+                gateCtx.globalAlpha = this.alpha;
+                gateCtx.strokeStyle = '#FFF2A1';
+                gateCtx.lineWidth = 1.5;
+                gateCtx.beginPath();
+                gateCtx.moveTo(0, -this.size); gateCtx.lineTo(0, this.size);
+                gateCtx.moveTo(-this.size, 0); gateCtx.lineTo(this.size, 0);
+                gateCtx.stroke();
+                gateCtx.restore();
+            }
+        }
+
+        function renderGateCanvas() {
+            if (!gateCtx) return;
+            gateCtx.clearRect(0, 0, gateCanvas.width, gateCanvas.height);
+            fogTime += 0.01;
+
+            const cx = gateCanvas.width / 2;
+            const cy = gateCanvas.height / 2;
+
+            if (isGateOpening) {
+                gateCtx.save();
+                const rayCount = 12;
+                for (let i = 0; i < rayCount; i++) {
+                    const angle = (i / rayCount) * Math.PI * 2 + fogTime * 0.2;
+                    const rayWidth = 0.15 + Math.sin(fogTime + i) * 0.05;
+                    const grad = gateCtx.createRadialGradient(cx, cy, 10, cx, cy, Math.max(cx, cy) * 1.5);
+                    grad.addColorStop(0, `rgba(255, 242, 161, ${lightIntensity * 0.8})`);
+                    grad.addColorStop(0.4, `rgba(212, 175, 55, ${lightIntensity * 0.4})`);
+                    grad.addColorStop(1, 'transparent');
+
+                    gateCtx.fillStyle = grad;
+                    gateCtx.beginPath();
+                    gateCtx.moveTo(cx, cy);
+                    gateCtx.arc(cx, cy, Math.max(cx, cy) * 1.5, angle - rayWidth, angle + rayWidth);
+                    gateCtx.closePath();
+                    gateCtx.fill();
+                }
+                gateCtx.restore();
+
+                flyParticles.forEach(p => { p.update(); p.draw(); });
+                sparkles.forEach(s => { s.update(); s.draw(); });
+            }
+
+            requestAnimationFrame(renderGateCanvas);
+        }
+
+        // TRIGGER GRAND OPENING
+        document.getElementById('open-gate-btn').addEventListener('click', () => {
+            if(!audioCtx) audioCtx = new AudioCtx();
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+
+            playGateChargeSound();
+
+            const btn = document.getElementById('open-gate-btn');
+            gsap.to(btn, {scale: 0.95, duration: 0.1, yoyo: true, repeat: 1});
+
+            setTimeout(() => {
+                isGateOpening = true;
+                playBoomSound();
+                setTimeout(playWhooshSound, 400);
+
+                for(let i=0; i<120; i++) flyParticles.push(new FlyParticle());
+                for(let i=0; i<30; i++) sparkles.push(new SparkleStar());
+
+                const mainTimeline = gsap.timeline();
+
+                mainTimeline.to('#gate-content', {opacity: 0, scale: 0.9, duration: 0.4, ease: "power2.in"})
+                .to({}, {duration: 0.5, onUpdate: function() { lightIntensity = this.progress(); }})
+                .to('#door-left', {rotateY: -95, duration: 2.2, ease: "power2.inOut"}, "-=0.3")
+                .to('#door-right', {rotateY: 95, duration: 2.2, ease: "power2.inOut"}, "-=2.2")
+                .to('#gate-seam', {scaleX: 30, opacity: 0, duration: 1.2}, "-=2.0")
+                .to('#door-container', {scale: 1.35, z: 200, duration: 2.2, ease: "power2.inOut"}, "-=2.2")
+                .to('#white-flash', {opacity: 1, duration: 0.25, ease: "power3.in"}, "-=0.3")
+                .call(() => {
+                    document.getElementById('gate-screen').style.display = 'none';
+                    document.getElementById('main-wrapper').style.display = 'block';
+                    initOrbitSystem();
+                    initBgCanvas();
+                })
+                .to('#white-flash', {opacity: 0, duration: 1.2, ease: "power2.out"})
+                .from('.center-frame', {scale: 0, rotation: -180, duration: 1.4, ease: "elastic.out(1, 0.5)"}, "-=0.8")
+                .from('.guest-badge, .guest-name, .guest-sub', {opacity: 0, y: 30, duration: 1, stagger: 0.2}, "-=0.8");
+            }, 300);
+        });
+
+        /* --- 5. ORBIT & 5 GEMS SYSTEM --- */
+        const gems = Array.from(document.querySelectorAll('.gem'));
+        let isOrbitActive = true;
+        let orbitRadius = getOrbitRadius();
+
+        function getOrbitRadius() {
+            return window.innerWidth < 768 ? (window.innerWidth * 0.38) : (Math.min(window.innerWidth * 0.22, 310));
+        }
+
+        window.addEventListener('resize', () => {
+            orbitRadius = getOrbitRadius();
+        });
+
+        // Evenly space 5 gems on 360 degrees circle (72 degrees apart)
+        gems.forEach((gem, idx) => {
+            gem.angle = (idx * (Math.PI * 2)) / gems.length;
+        });
+
+        function animateOrbit() {
+            if(isOrbitActive) {
+                gems.forEach(gem => {
+                    gem.angle += 0.005;
+                    const x = Math.cos(gem.angle) * orbitRadius;
+                    const y = Math.sin(gem.angle) * orbitRadius;
+                    gem.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+                });
+            }
+            requestAnimationFrame(animateOrbit);
+        }
+
+        function initOrbitSystem() {
+            animateOrbit();
+
+            gems.forEach(gem => {
+                gem.addEventListener('mouseenter', () => { isOrbitActive = false; playSparkleSound(); });
+                gem.addEventListener('mouseleave', () => { isOrbitActive = true; });
+
+                gem.addEventListener('click', () => {
+                    playSparkleSound();
+                    const name = gem.getAttribute('data-name');
+                    const msg = gem.getAttribute('data-msg');
+                    const color = gem.getAttribute('data-color');
+
+                    const titleEl = document.getElementById('modal-gem-title');
+                    titleEl.innerText = name;
+                    titleEl.style.color = color;
+                    titleEl.style.textShadow = `0 0 20px ${color}`;
+
+                    document.getElementById('modal-gem-msg').innerText = `"${msg}"`;
+                    document.getElementById('gem-modal').classList.add('active');
+                });
+            });
+        }
+
+        document.getElementById('close-gem-modal').addEventListener('click', () => {
+            document.getElementById('gem-modal').classList.remove('active');
+        });
+
+        /* --- 6. SCROLL REVEAL OBSERVER --- */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
+
+        /* --- 7. RSVP & CONFETTI FIREWORKS --- */
+        document.getElementById('rsvp-btn').addEventListener('click', () => {
+            playBoomSound();
+            const duration = 3.5 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 6,
+                    angle: 60, spread: 60,
+                    origin: { x: 0, y: 0.7 },
+                    colors: ['#D4AF37', '#8B0000', '#ffffff', '#FF3366', '#FF9900']
+                });
+                confetti({
+                    particleCount: 6,
+                    angle: 120, spread: 60,
+                    origin: { x: 1, y: 0.7 },
+                    colors: ['#D4AF37', '#8B0000', '#ffffff', '#00E676', '#3399FF']
+                });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+
+            setTimeout(() => {
+                document.getElementById('rsvp-modal').classList.add('active');
+            }, 800);
+        });
+
+        /* --- 8. EASTER EGG --- */
+        let clickCount = 0;
+        document.getElementById('thai-name-btn').addEventListener('click', () => {
+            clickCount++;
+            playSparkleSound();
+            if(clickCount === 3) {
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 }, colors: ['#D4AF37', '#ffffff', '#FF9900'] });
+                alert("Năm đàn em đang âm thầm chờ Anh đó nha 😎❤️");
+                clickCount = 0;
+            }
+        });
+
+        /* --- 9. BACKGROUND DUST PARTICLES CANVAS --- */
+        function initBgCanvas() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particles = [];
+            const count = window.innerWidth < 768 ? 35 : 90;
+
+            for(let i=0; i<count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 2 + 0.5,
+                    vy: Math.random() * -0.6 - 0.2,
+                    vx: Math.random() * 0.4 - 0.2,
+                    alpha: Math.random() * 0.7 + 0.2,
+                    color: Math.random() > 0.4 ? '#D4AF37' : '#8B0000'
+                });
+            }
+
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y += p.vy;
+                    p.x += p.vx;
+                    if(p.y < 0) p.y = canvas.height;
+                    if(p.x < 0 || p.x > canvas.width) p.x = Math.random() * canvas.width;
+
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                requestAnimationFrame(render);
+            }
+            render();
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+    </script>
+</body>
+</html>
